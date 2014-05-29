@@ -19,7 +19,7 @@ To build windows-installer, you will need NSIS 2.46 on your machine, NSIS 2.46 c
 
 linux-installer and raspbian-installer are shell scripts, you can use your favourite editor for these.
 
-Installers installs java7, downloads Chrome, player "RisePlayer.jar" and rise-cache "RiseCache.jar" to folder RVPlayer in APP_DATA under user home on windows or to folder rvplayer in USER_HOME on Ubuntu and Raspbian, starts the java applicaitons RisePlayer and RiseCache, launches the Viewer in Chrome, to display HTML content from Rise Vision - our digital signage management application. More information about Viewer can be found in the Rise-Vision/viewer repository.
+Installers install java7, downloads Chrome, player "RisePlayer.jar" and rise-cache "RiseCache.jar" to folder RVPlayer in APP_DATA under user home on windows or to folder rvplayer in USER_HOME on Ubuntu and Raspbian, starts the java applicaitons RisePlayer and RiseCache, launches the Viewer in Chrome, to display HTML content from Rise Vision - our digital signage management application. More information about Viewer can be found in the Rise-Vision/viewer repository.
 
 1. Player “rvplayer/RisePlayer.jar” running on port 9449 handles viewer commands.
 
