@@ -29,8 +29,8 @@
 
 	!echo "Building production version"
 	
-	!define CurrentInstallerVersion "2.2.00038"
-	!define CoreURL "https://r30.rvaserver2.appspot.com"
+	!define CurrentInstallerVersion "2.2.00039"
+	!define CoreURL "https://rvaserver2.appspot.com"
 	!define ViewerURL "http://rvashow.appspot.com/Viewer.html"
 
 !else ifdef TEST_VERSION
