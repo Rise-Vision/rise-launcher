@@ -3,7 +3,7 @@
 
 Use of this software is governed by the GPLv3 license (reproduced in the LICENSE file).
 
-player-native is a set of Java Apps, responsible for launching Viewer in Chrome, to display HTML content from Rise Vision - our digital signage management application. More information about Viewer can be found in the Rise-Vision/viewer repository
+player-native is a set of Java Apps, responsible for launching Viewer in Chrome, to display HTML content from Rise Vision - our digital signage management application. More information about Viewer can be found in the [Rise-Vision Viewer](https://github.com/Rise-Vision/viewer) repository
 
 Included in this repository are the installation scripts for Linux, Raspberry Pi and the installer for Windows. When ran, the installers will download and install the Player - “RisePlayer.jar”, rise-cache - “RiseCache.jar”, Chrome and Java 7. 
 
