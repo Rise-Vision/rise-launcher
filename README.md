@@ -71,25 +71,26 @@ Similary update the SHOW_URL to connect to test "http://viewer-test.appspot.com"
 
 Installer uses following URL to check for current component version numbers $CORE_URL/v2/player/components?os=rsp
 
-> 
-**Windows Url**: 
-https://rvacore-test.appspot.com/v2/player/components?os=win
-**Linux Url**: 
-https://rvacore-test.appspot.com/v2/player/components?os=lnx
-**Linux 64 Url**: 
-https://rvacore-test.appspot.com/v2/player/components?os=lnx64
-> 
-**Windows url Returns**:
-PlayerVersion=2.0.035
-PlayerURL=http://commondatastorage.googleapis.com/rise-player%2FRisePlayer-2.0.035.zip
-InstallerVersion=2.2.00037-test
-InstallerURL=https://rvacore-test.appspot.com/player/download?os=win
-BrowserVersion=24.0.1312.56
-BrowserURL=http://commondatastorage.googleapis.com/chrome-windows%2Fchrome-win32-24.0.1312.56.zip
-CacheVersion=1.0.008
-CacheURL=http://commondatastorage.googleapis.com/risecache/RiseCache-1.0.008.zip
-JavaVersion=7.9
-JavaURL=http://commondatastorage.googleapis.com/javazipfile/jre-7.9-32bit.zip
+    Windows Url: 
+    https://rvacore-test.appspot.com/v2/player/components?os=win
+    
+    Linux Url: 
+    https://rvacore-test.appspot.com/v2/player/components?os=lnx
+    
+    Linux 64 Url: 
+    https://rvacore-test.appspot.com/v2/player/components?os=lnx64
+     
+    Windows url Returns:
+    PlayerVersion=2.0.035
+    PlayerURL=http://commondatastorage.googleapis.com/rise-player%2FRisePlayer-2.0.035.zip
+    InstallerVersion=2.2.00037-test
+    InstallerURL=https://rvacore-test.appspot.com/player/download?os=win
+    BrowserVersion=24.0.1312.56
+    BrowserURL=http://commondatastorage.googleapis.com/chrome-windows%2Fchrome-win32-24.0.1312.56.zip
+    CacheVersion=1.0.008
+    CacheURL=http://commondatastorage.googleapis.com/risecache/RiseCache-1.0.008.zip
+    JavaVersion=7.9
+    JavaURL=http://commondatastorage.googleapis.com/javazipfile/jre-7.9-32bit.zip
 
 On Windows, if you are making changes to Installer files, copy the generated "RiseVisionPlayer.exe" to application folder i.e., "RVPlayer" folder under "%LOCALAPPDATA%".
 
