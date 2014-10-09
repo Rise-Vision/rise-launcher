@@ -1,123 +1,109 @@
-﻿# player-native
+# player-native
 
 ## Introduction
 
-player-native is a set of Java Apps, responsible for launching Viewer in Chrome, to display HTML content from Rise Vision - our digital signage management application.
+player-native is a set of components; the Installer, Rise Player and Rise Cache. Together, these components are used to show digital signage on a public display.
 
-player-native repository consists of components to run the presentation on Windows and Linux.
+The Installer is responsible for downloading and installing Rise Player, Rise Cache and Chrome onto the target machine.
 
-- Winows_installer NSIS scripts to configure, launch and auto-update the components on Windows 
-- Linux-Installer shell script to configure, launch and auto-update the components on Windows
-- Cache Java App for maintaining local cache for video files
-- Player Java App responsible for launching [Viewer](https://github.com/Rise-Vision/viewer) in Chrome.
+Rise Player is responsible for launching Viewer in Chrome, to display HTML content from Rise Vision. In addition, Player will run a local server on port 9449 that is used for communication with Viewer.
 
-player works in conjunction with [Rise Vision](http://www.risevision.com), the [digital signage management application](http://rva.risevision.com/) that runs on [Google Cloud](https://cloud.google.com).
+Rise Cache will run a local server on port 9494 and serves as a proxy for downloading and serving videos requested by the Video Widget running in Viewer.
+
+Rise Player and Rise Cache works in conjunction with [Rise Vision](http://www.risevision.com), the [digital signage management application](http://rva.risevision.com/) that runs on [Google Cloud](https://cloud.google.com).
+
 
 At this time Chrome is the only browser that this project and Rise Vision supports.
 
-## Built With
-- *Java 1.7*
-- *[NSIS 2.46](http://nsis.sourceforge.net/Download.)*
-- Eclipse
-- *Shell script*
+Built With
 
-## Development 
+ - Java 1.7
+ - [NSIS 2.46](http://nsis.sourceforge.net/Download.)
+ - [Eclipse](http://www.eclipse.org/downloads/)
+ 
+## Development
 
 ### Local Development Environment Setup and Installation
-The Java projects RiseCache in /rise-cache and RisePlayer in /player folders in repository can be build using eclipse.
 
-You will need to export these to Runnable jar file
+#### Installer
 
-- *RisePlayer to RisePlayer.jar and*
-- *RiseCache to RiseCache.jar*
+To build windows-installer, open the NSIS script compiler then open the file setup.nsi from the player-native repository.
 
-To build windows-installer, you will need NSIS 2.46 on your machine, [NSIS 2.46](http://nsis.sourceforge.net/Download). Once installed, open the NSIS script compiler and open the file setup.nsi from the repository.
+Windows Installer can be built by compiling "setup.nsi" in NSIS.
 
-Windows Installer  can be build by compiling "setup.nsi" in NSIS. 
+1. Select Compile NSI scripts. That will launch MakeNSISW
+2. Select File menu
+3. Load the script setup.nsi from within the player-native repo
+4. Once complete, a RiseVisionPlayer.exe will be generated
 
-### Run Local on Linux
-player can run locally on Ubuntu. It can be installed by running command "sudo rvplayer-installerraspbian.sh" in terminal window. The script will download the required components from server, configure the machine and launch the Chrome browser.
+For Linux, the installer is a shell script. To edit, open linux-installer.sh file with any text editor.
 
-### Run Local on Windows
-player can run locally on Windows. First Installer need to be created by compiling "windows-installer\setup.nsi" using NSIS and then execute the generated installer exe file. The Installer will download the required components from server, configure the machine and launch the Chrome browser.
+#### Rise Player and Rise Cache
 
-When installation has completed, the Java App’s, RisePlayer.jar and RiseCahce.jar, are launched. 
+To build Java projects, you will need Eclipse on your machine. In Eclipse create a new workspace. Import the RiseCache from /rise-cache and RisePlayer from /player into Eclipse.
 
-RisePlayer.jar is responsible for launching Chrome. In addition, RisePlayer.jar will run a local server on port 9449 that is used for communication with Viewer.
+1. Select File menu
+2. Select Import
+3. Under General, select "Existing Projects into Workspace"
+4. Select the root directory for whichever project you want to import. 
 
-RiseCache.jar will run a local server on port 9494 and serves as a proxy for downloading and serving videos requested by the Video Widget running in viewer.
+#### To Debug Player project in Eclipse
 
-Upon startup, the Rise Vision Player will require either a Display ID or Claim ID to connect your Display to the Platform. From the [Rise Vision Platform](http://rva.risevision.com) click on Displays, then Add Display give it a name and click save. Copy the Display ID and enter it in the Rise Vision Player on startup.
+1. Right click on player project in project Explorer
+2. Select Debug as
+3. Select Java Application
+4. Select Main - com.risevision.riseplayer
+5. Select OK
 
-One can change the display id, or shift between test and production platform by editing the "RiseDisplayNetworkII.ini" in application folder.
+#### To Debug Rise Cache project in Eclipse
 
+1. Right click on rise-cache project in project Explorer
+2. Select Debug as
+3. Select Java Application
+4. Select Main - com.risevision.risecache
+5. Select OK
 
-####Components:
+#### When you are ready, build and export the projects as .jar files. From Eclipse,
 
-- *Installer*
-- *RisePlayer*
-- *RiseCache*
-- *Chromium*
+1. Right Click on project in project Explorer
+2. Click Export
+3. From the Java option, select "Runnable Jar File"
+4. Select correct Launch Configuration created during debug steps above
+5. Under export destination, Export
+ a. RisePlayer as RisePlayer.jar
+ b. RiseCache as RiseCache.jar
 
-####Important configuration steps for testing/running on your Windows/Linux machine
+### Run Local
 
-Installer upon launch connects to CORE server and request for components version numbers, if component is missing on local machine or version number is different, the particular component is downloaded.
+#### Installer
 
-For your testing its recommended that the version of your updated component should match with the version number set on the Core server otherwise Installer script will replace your copy with the version set on the server.
+In Linux, run the command "sudo ~./rvplayer-installerraspbian.sh" in terminal window.
 
-The Core server URL is coded in the Installer, you can update the CORE_URL variable in script to connect to test "https://rvacore-test.appspot.com" or production "https://rvaserver2.appspot.com" or local Core server.
+In Windows, run the executable generated from NSIS
 
-Similary update the SHOW_URL to connect to test "http://viewer-test.appspot.com" or production "http://rvashow.appspot.com" Viewer server
+When launched, Installer connects to the Rise Vision Server and request Component version numbers. If a Component is missing or version number is different, the Component is downloaded.
 
-Installer uses following URL to check for current component version numbers $CORE_URL/v2/player/components?os=rsp
+For testing, it's recommended to set the version of your Component to be equal to the version number on the Server to prevent your Component from being updated from the server. Copy the new updated component in the application folder manually and launch the installer.
 
-    Windows Url: 
-    https://rvacore-test.appspot.com/v2/player/components?os=win
-    
-    Linux Url: 
-    https://rvacore-test.appspot.com/v2/player/components?os=lnx
-    
-    Linux 64 Url: 
-    https://rvacore-test.appspot.com/v2/player/components?os=lnx64
-     
-    Windows url Returns:
-    PlayerVersion=2.0.035
-    PlayerURL=http://commondatastorage.googleapis.com/rise-player%2FRisePlayer-2.0.035.zip
-    InstallerVersion=2.2.00037-test
-    InstallerURL=https://rvacore-test.appspot.com/player/download?os=win
-    BrowserVersion=24.0.1312.56
-    BrowserURL=http://commondatastorage.googleapis.com/chrome-windows%2Fchrome-win32-24.0.1312.56.zip
-    CacheVersion=1.0.008
-    CacheURL=http://commondatastorage.googleapis.com/risecache/RiseCache-1.0.008.zip
-    JavaVersion=7.9
-    JavaURL=http://commondatastorage.googleapis.com/javazipfile/jre-7.9-32bit.zip
+The URL's below can be used to confirm current versions of each component.
 
-On Windows, if you are making changes to Installer files, copy the generated "RiseVisionPlayer.exe" to application folder i.e., "RVPlayer" folder under "%LOCALAPPDATA%".
+Windows: https://rvacore-test.appspot.com/v2/player/components?os=win
+Linux: https://rvacore-test.appspot.com/v2/player/components?os=lnx
 
-On Linux, If you are making changes to installer script, copy the updated script to file rvplayer in application folder i.e., /root/rvplayer and make sure script rvplayer has execute permissions and the installer version number set in variable VERSION match the InstallerVersion set on CORE Server
+#### Rise Player and Rise Cache
 
-If you are making changes to RisePlayer.jar, copy the updated jar file to application folder and the RisePlayer version number set in java application should match the PlayerVersion set on CORE server
+Rise Player and Rise Cache are both .jar's and can be ran by right clicking on the file and running with Java Runtime.
 
-If you are making changes to RiseCache.jar, copy the updated jar file to application folder and the RiseCache version number set in java application should match the CacheVersion set on CORE Server
+Rise Vision Player requires a Display ID or Claim ID to connect the Display to the Rise Vision Platform.
 
-#####application folder contain following:
+1. From the [Rise Vision Platform](http://rva.risevision.com/) click on Displays
+2. Select Add Display and give it a name.
+3. Click save.
+4. Copy the Display ID and enter it in the Rise Vision Player on startup.
 
-- *chrome-linux directory - On Linux Chromium binaries downloaded by Installer*
-- *chromium  directory - on Windows Chromium binaries downloaded by Installer*
-- *JRE directory - On Windows only - Java binaries*
-- *RiseCache directory - Contains RiseCache.jar and downloaded video files*
-- *RisePlayer.jar*
-- *rvplayer - On Linux only - Installer script*
-- *RiseVisionPlayer.exe - On Windows only - Installer*
-- *chromium.log - Chrmium std err output*
-- *RisePlayer.log - RisePlayer log*
-- *RiseDisplayNetworkII.ini - Configuration file, created by Installer and updated by RisePlayer, contains Core Server URL, Display ID...*
-- *installer.ver - contain Installer vesion number*
-- *RisePlayer.ver - contain RisePlayer vesion number*
-- *chromium.ver - contain Chromium vesion number*
-- *RiseCache.ver - contain RiseCache vesion number*
+The Display ID can also be changed in the the "RiseDisplayNetworkII.ini" within the application folder.
 
-### Dependencies
+## Dependencies
 
 All dependencies like Chromium and Java are downloaded and installed by the installer.
 
