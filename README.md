@@ -70,8 +70,8 @@ To build Java projects, you will need Eclipse on your machine. In Eclipse create
 3. From the Java option, select "Runnable Jar File"
 4. Select correct Launch Configuration created during debug steps above
 5. Under export destination, Export
- a. RisePlayer as RisePlayer.jar
- b. RiseCache as RiseCache.jar
+ - RisePlayer as RisePlayer.jar
+ - RiseCache as RiseCache.jar
 
 ### Run Local
 
@@ -87,8 +87,8 @@ For testing, it's recommended to set the version of your Component to be equal t
 
 The URL's below can be used to confirm current versions of each component.
 
-Windows: https://rvacore-test.appspot.com/v2/player/components?os=win
-Linux: https://rvacore-test.appspot.com/v2/player/components?os=lnx
+- Windows: https://rvacore-test.appspot.com/v2/player/components?os=win
+- Linux: https://rvacore-test.appspot.com/v2/player/components?os=lnx
 
 #### Rise Player and Rise Cache
 
