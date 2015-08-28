@@ -21,15 +21,15 @@
 
 ; Global Symbols
 
-;!define PRODUCTION_VERSION
-!define TEST_VERSION
+!define PRODUCTION_VERSION
+;!define TEST_VERSION
 ;!define LOCAL_TEST_VERSION
 
 !ifdef PRODUCTION_VERSION
 
 	!echo "Building production version"
 	
-	!define CurrentInstallerVersion "2.2.00039"
+	!define CurrentInstallerVersion "2.3.0000win"
 	!define CoreURL "https://rvaserver2.appspot.com"
 	!define ViewerURL "http://rvashow.appspot.com/Viewer.html"
 
@@ -37,8 +37,7 @@
 
 	!echo "Building test version"
 	
-	!define CurrentInstallerVersion "2.2.00037-test"
-	;!define CoreURL "http://exp-11074.latest.rdncore-test.appspot.com" 
+	!define CurrentInstallerVersion "2.3.0000win"
 	!define CoreURL "https://rvacore-test.appspot.com"
 	!define ViewerURL "http://viewer-test.appspot.com/Viewer.html"
 
@@ -47,7 +46,6 @@
 	!echo "Building local test version"
 	
 	!define CurrentInstallerVersion "2.2.00038-local-test"
-	;!define CoreURL "http://exp-11074.latest.rdncore-test.appspot.com" 
 	!define CoreURL "http://localhost/temp"
 	!define ViewerURL "http://viewer-test.appspot.com/Viewer.html"
 
@@ -322,7 +320,8 @@ Section -Main SEC0000
 
     ;--------------    
     
-    StrCpy $TempURL "${CoreURL}${PlayerUpdatePath}&id=$DisplayId"
+    ;StrCpy $TempURL "${CoreURL}${PlayerUpdatePath}&id=$DisplayId"
+    StrCpy $TempURL "https://install-versions.risevision.com/remote-components-win.cfg"
     ${DetailPrint} "Retrieving update from $TempURL, please wait..."
 
     ${Download} "silent" "Downloading update..." "$TempURL" "$PLUGINSDIR\${BaseName}.config" "true"

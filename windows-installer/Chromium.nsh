@@ -76,7 +76,6 @@
     ;-------------------
 
     IfFileExists "$PLUGINSDIR\cache\chrome-win32\chrome.exe" 0 MissingFile
-    IfFileExists "$PLUGINSDIR\cache\chrome-win32\chrome.dll" 0 MissingFile
     Goto AllFilesThere
   
     MissingFile:
