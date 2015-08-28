@@ -321,7 +321,7 @@ Section -Main SEC0000
     ;--------------    
     
     ;StrCpy $TempURL "${CoreURL}${PlayerUpdatePath}&id=$DisplayId"
-    StrCpy $TempURL "https://install-versions.risevision.com/remote-components-win.cfg"
+    StrCpy $TempURL "http://install-versions.risevision.com/remote-components-win.cfg"
     ${DetailPrint} "Retrieving update from $TempURL, please wait..."
 
     ${Download} "silent" "Downloading update..." "$TempURL" "$PLUGINSDIR\${BaseName}.config" "true"

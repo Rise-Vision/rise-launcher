@@ -186,9 +186,9 @@ rvp_get_update() {
 
 	if [ "$ARCH" = "64" ]
 	then
-		update_url="https://install-versions.risevision.com/remote-components-lnx-64.cfg"
+		update_url="http://install-versions.risevision.com/remote-components-lnx-64.cfg"
 	else
-		update_url="https://install-versions.risevision.com/remote-components-lnx-32.cfg"
+		update_url="http://install-versions.risevision.com/remote-components-lnx-32.cfg"
 	fi
 
 	echo "Checking for updates..."
