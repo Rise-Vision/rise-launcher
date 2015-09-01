@@ -202,6 +202,30 @@ RequestExecutionLevel user
 ;SilentInstall silent
 ;AutoCloseWindow true
 
+; Configuration file parameters
+Var ForceStable
+Var LatestRolloutPercent
+
+Var BrowserVersionStable
+Var BrowserURLStable
+Var BrowserVersionLatest
+Var BrowserURLLatest
+
+Var JavaVersionStable
+Var JavaURLStable
+Var JavaVersionLatest
+Var JavaURLLatest
+
+Var CacheVersionStable
+Var CacheURLStable
+Var CacheVersionLatest
+Var CacheURLLatest
+
+Var PlayerVersionStable
+Var PlayerURLStable
+Var PlayerVersionLatest
+Var PlayerURLLatest
+
 
 # Installer sections
 Section -Main SEC0000
@@ -338,15 +362,58 @@ Section -Main SEC0000
     
     ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "InstallerVersion=" $InstallerVersion
     ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "InstallerURL=" $InstallerURL    
-    
-    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "BrowserVersion=" $ChromiumVersion
-    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "BrowserURL=" $ChromiumURL
-    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "JavaVersion=" $JavaVersion
-    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "JavaURL=" $JavaURL
-    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "PlayerVersion=" $RisePlayerVersion
-    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "PlayerURL=" $RisePlayerURL
-    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "CacheVersion=" $RiseCacheVersion
-    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "CacheURL=" $RiseCacheURL
+
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "ForceStable=" $ForceStable
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "LatestRolloutPercent=" $LatestRolloutPercent
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "BrowserVersionStable=" $BrowserVersionStable
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "BrowserVersionLatest=" $BrowserVersionLatest
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "BrowserURLStable=" $BrowserURLStable
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "BrowserURLLatest=" $BrowserURLLatest
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "JavaVersionStable=" $JavaVersionStable
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "JavaVersionLatest=" $JavaVersionLatest
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "JavaURLStable=" $JavaURLStable
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "JavaURLLatest=" $JavaURLLatest
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "PlayerVersionStable=" $PlayerVersionStable
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "PlayerVersionLatest=" $PlayerVersionLatest
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "PlayerURLStable=" $PlayerURLStable
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "PlayerURLLatest=" $PlayerURLLatest
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "CacheVersionStable=" $CacheVersionStable
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "CacheVersionLatest=" $CacheVersionLatest
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "CacheURLStable=" $CacheURLStable
+    ${ConfigRead} "$PLUGINSDIR\${BaseName}.config" "CacheURLLatest=" $CacheURLLatest
+
+    ; ForceStable takes precedence over everything else
+    StrCmp $ForceStable "true" UseStableChannel
+    ; If already on latest, stay on latest
+    StrCmp $CurrentRisePlayerVersion $PlayerVersionLatest UseUnstableChannel
+    ; Random number to check if installer should use stable or unstable channel
+    ${Rnd} $0 0 99
+    ; IntComp value1 value2 do_if_equal do_if_value1_lt_value2 do_if_value1_gt_value2
+    IntCmp $0 $LatestRolloutPercent 0 UseUnstableChannel UseStableChannel
+
+    UseUnstableChannel:
+    StrCpy $ChromiumVersion $BrowserVersionLatest
+    StrCpy $ChromiumURL $BrowserURLLatest
+    StrCpy $JavaVersion $JavaVersionLatest
+    StrCpy $JavaURL $JavaURLLatest
+    StrCpy $RisePlayerVersion $PlayerVersionLatest
+    StrCpy $RisePlayerURL $PlayerURLLatest
+    StrCpy $RiseCacheVersion $CacheVersionLatest
+    StrCpy $RiseCacheURL $CacheURLLatest
+
+    Goto ValidateInstalledVersions
+
+    UseStableChannel:
+    StrCpy $ChromiumVersion $BrowserVersionStable
+    StrCpy $ChromiumURL $BrowserURLStable
+    StrCpy $JavaVersion $JavaVersionStable
+    StrCpy $JavaURL $JavaURLStable
+    StrCpy $RisePlayerVersion $PlayerVersionStable
+    StrCpy $RisePlayerURL $PlayerURLStable
+    StrCpy $RiseCacheVersion $CacheVersionStable
+    StrCpy $RiseCacheURL $CacheURLStable
+
+    ValidateInstalledVersions:
 
 	${DetailPrint} "PlayerURL= $RisePlayerURL"
 	${DetailPrint} "CacheURL= $RiseCacheURL"
