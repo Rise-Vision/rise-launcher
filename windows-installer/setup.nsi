@@ -136,7 +136,7 @@ BrandingText "Rise Vision Player v${CurrentInstallerVersion}"
 !insertmacro MUI_LANGUAGE "English"
 
 # Installer attributes
-OutFile "RiseVisionPlayer.exe"
+OutFile "rvplayer-installer.exe"
 ;InstallDir "Rise Vision Player"
 CRCCheck on
 XPStyle on
