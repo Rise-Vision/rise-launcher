@@ -440,10 +440,6 @@ FunctionEnd
     ${ConfigRead} "$INSTDIR\${DisplayIdFile}" "viewerurl=" $ViewerURLLocal
     ${ConfigRead} "$INSTDIR\${DisplayIdFile}" "coreurl=" $CoreURLLocal
 
-    StrCmp ${ViewerURL} $ViewerURLLocal 0 WriteDisplayId
-    StrCmp ${CoreURL} $CoreURLLocal 0 WriteDisplayId
-
-
     Goto SkipWriteDisplayId
     
     ;-------------------------------
