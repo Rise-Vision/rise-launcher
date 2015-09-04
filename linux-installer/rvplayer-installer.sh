@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Rise Vision Player installation script
 
 set -e
