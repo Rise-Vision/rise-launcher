@@ -1,16 +1,13 @@
-# player-native
+# Rise Launcher
 
 ## Introduction
 
-player-native is a set of components; the Installer, Rise Player and Rise Cache. Together, these components are used to show digital signage on a public display.
+Player launcher will check for component updates (Rise Cache, Rise Player, Chrome, Java, etc) and launch Rise Cache and Rise Player.
 
-The Installer is responsible for downloading and installing Rise Player, Rise Cache and Chrome onto the target machine.
+Expected versions are stored in versions-config/remote-components-[os-arch].cfg
+These version files are stored in a public Google Cloud Storage bucket at install-versions.risevision.com
 
-Rise Player is responsible for launching Viewer in Chrome, to display HTML content from Rise Vision. In addition, Player will run a local server on port 9449 that is used for communication with Viewer.
-
-Rise Cache will run a local server on port 9494 and serves as a proxy for downloading and serving videos requested by the Video Widget running in Viewer.
-
-Rise Player and Rise Cache works in conjunction with [Rise Vision](http://www.risevision.com), the [digital signage management application](http://rva.risevision.com/) that runs on [Google Cloud](https://cloud.google.com).
+Rise Player and Rise Cache work in conjunction with [Rise Vision](http://www.risevision.com), the [digital signage management application](http://rva.risevision.com/) that runs on [Google Cloud](https://cloud.google.com).
 
 
 At this time Chrome is the only browser that this project and Rise Vision supports.
@@ -37,75 +34,6 @@ Windows Installer can be built by compiling "setup.nsi" in NSIS.
 4. Once complete, a RiseVisionPlayer.exe will be generated
 
 For Linux, the installer is a shell script. To edit, open linux-installer.sh file with any text editor.
-
-#### Rise Player and Rise Cache
-
-To build Java projects, you will need Eclipse on your machine. In Eclipse create a new workspace. Import the RiseCache from /rise-cache and RisePlayer from /player into Eclipse.
-
-1. Select File menu
-2. Select Import
-3. Under General, select "Existing Projects into Workspace"
-4. Select the root directory for whichever project you want to import. 
-
-#### To Debug Player project in Eclipse
-
-1. Right click on player project in project Explorer
-2. Select Debug as
-3. Select Java Application
-4. Select Main - com.risevision.riseplayer
-5. Select OK
-
-#### To Debug Rise Cache project in Eclipse
-
-1. Right click on rise-cache project in project Explorer
-2. Select Debug as
-3. Select Java Application
-4. Select Main - com.risevision.risecache
-5. Select OK
-
-#### When you are ready, build and export the projects as .jar files. From Eclipse,
-
-1. Right Click on project in project Explorer
-2. Click Export
-3. From the Java option, select "Runnable Jar File"
-4. Select correct Launch Configuration created during debug steps above
-5. Under export destination, Export
- - RisePlayer as RisePlayer.jar
- - RiseCache as RiseCache.jar
-
-### Run Local
-
-#### Installer
-
-In Linux, run the command "sudo ~./rvplayer-installerraspbian.sh" in terminal window.
-
-In Windows, run the executable generated from NSIS
-
-When launched, Installer connects to the Rise Vision Server and request Component version numbers. If a Component is missing or version number is different, the Component is downloaded.
-
-For testing, it's recommended to set the version of your Component to be equal to the version number on the Server to prevent your Component from being updated from the server. Copy the new updated component in the application folder manually and launch the installer.
-
-The URL's below can be used to confirm current versions of each component.
-
-- Windows: https://rvacore-test.appspot.com/v2/player/components?os=win
-- Linux: https://rvacore-test.appspot.com/v2/player/components?os=lnx
-
-#### Rise Player and Rise Cache
-
-Rise Player and Rise Cache are both .jar's and can be ran by right clicking on the file and running with Java Runtime.
-
-Rise Vision Player requires a Display ID or Claim ID to connect the Display to the Rise Vision Platform.
-
-1. From the [Rise Vision Platform](http://rva.risevision.com/) click on Displays
-2. Select Add Display and give it a name.
-3. Click save.
-4. Copy the Display ID and enter it in the Rise Vision Player on startup.
-
-The Display ID can also be changed in the the "RiseDisplayNetworkII.ini" within the application folder.
-
-## Dependencies
-
-All dependencies like Chromium and Java are downloaded and installed by the installer.
 
 ## Submitting Issues 
 If you encounter problems or find defects we really want to hear about them. If you could take the time to add them as issues to this Repository it would be most appreciated. When reporting issues please use the following format where applicable:
