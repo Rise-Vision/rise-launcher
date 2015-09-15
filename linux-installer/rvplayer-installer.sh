@@ -546,13 +546,17 @@ rvp_accept_terms() {
 
 }
 
+rvp_browser_upgradeable() {
+  if [[ $(wget -q -O - https://rvaserver2.appspot.com/player/isBrowserUpgradeable?displayId=$DISPLAY_ID) = "true" ]]; then echo "Browser is upgradeable"; return 0; else echo "Browser is not upgradeable"; return 1;fi
+}
+
 echo "Rise Vision Player Installer ver.$VERSION"
 
 rvp_fix_display_id
 
 rvp_load_display_id
 
-# check if silent
+# check command line parameters
 for i
 do 
 	if [ "$i" = "/S" ]; then SILENT=true; fi
@@ -590,7 +594,7 @@ upgrade_needed=$VALUE_NO
 
 # check for Chromium upgrade
 
-if [ -n "$VALUE_CHROMIUM_VERSION" ] && [ -n "$VALUE_CHROMIUM_URL" ] && [ "$VALUE_CHROMIUM_VERSION" != "$CURRENT_CHROMIUM_VERSION" ]
+if [ -n "$VALUE_CHROMIUM_VERSION" ] && [ -n "$VALUE_CHROMIUM_URL" ] && [ "$VALUE_CHROMIUM_VERSION" != "$CURRENT_CHROMIUM_VERSION" ] && rvp_browser_upgradeable
 then
 
 	rvp_download_and_unpack $VALUE_CHROMIUM_URL $CHROME_LINUX $TEMP_PATH
