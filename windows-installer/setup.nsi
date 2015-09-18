@@ -29,7 +29,7 @@
 
 	!echo "Building production version"
 	
-	!define CurrentInstallerVersion "2015.09.16.17.00"
+	!define CurrentInstallerVersion "2015.09.18.00.15"
 	!define CoreURL "https://rvaserver2.appspot.com"
 	!define ViewerURL "http://rvashow.appspot.com/Viewer.html"
 
@@ -37,7 +37,7 @@
 
 	!echo "Building test version"
 	
-	!define CurrentInstallerVersion "2015.09.16.17.00"
+	!define CurrentInstallerVersion "2015.09.18.00.15"
 	!define CoreURL "https://rvacore-test.appspot.com"
 	!define ViewerURL "http://viewer-test.appspot.com/Viewer.html"
 
@@ -525,6 +525,7 @@ Section -Main SEC0000
     
     ; If displayId is not present, always update
     StrCmp $DisplayId "" UpdateChromium 0
+    StrCmp $DisplayId "DEMO" UpdateChromium 0
 
     ${DetailPrint} "Checking if browser is upgradeable..."
     
