@@ -547,7 +547,8 @@ rvp_accept_terms() {
 }
 
 rvp_browser_upgradeable() {
-  if [[ $(wget -q -O - https://rvaserver2.appspot.com/player/isBrowserUpgradeable?displayId=$DISPLAY_ID) = "true" ]]; then echo "Browser is upgradeable"; return 0; else echo "Browser is not upgradeable"; return 1;fi
+  if [ -z $DISPLAY_ID ]; then echo "Installing browser"; return 0; fi
+  if [[ $(wget -q -O - $CORE_URL/player/isBrowserUpgradeable?displayId=$DISPLAY_ID) = "true" ]]; then echo "Browser is upgradeable"; return 0; else echo "Browser is not upgradeable"; return 1;fi
 }
 
 echo "Rise Vision Player Installer ver.$VERSION"
