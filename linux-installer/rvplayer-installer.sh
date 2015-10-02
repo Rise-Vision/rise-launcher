@@ -21,6 +21,7 @@ SHOW_URL="http://rvashow.appspot.com"
 
 OS=$(lsb_release -si)
 ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
+OSVER=$(lsb_release -sr)
 
 TYPE_CHROMIUM="chromium"
 TYPE_INSTALLER="installer"
@@ -589,6 +590,26 @@ fi
 
 rvp_install_script
 
+# If running an old version of Ubuntu, do not upgrade components and try to run Player if it is installed
+if [ "$OSVER" = "12.04" ] || [ "$OSVER" = "12.10" ]
+then
+  echo ""
+  echo "*******************************************************************************************"
+  echo ""
+  echo "Latest Rise Player requires Ubuntu 14.04 to run. Attempting to use previous installation..."
+  echo ""
+  echo "*******************************************************************************************"
+  echo ""
+
+  echo "2.2.0029" > $INSTALL_PATH/$TYPE_INSTALLER".ver"
+	rvp_kill_rise_player
+	rvp_kill_chromium
+	rvp_kill_rise_cache
+	sleep 3
+	rvp_start_player
+	exit 0
+fi
+
 rm -rf $TEMP_PATH/$CHROME_LINUX
 
 upgrade_needed=$VALUE_NO
@@ -675,4 +696,3 @@ rvp_confirm_add_player_to_autostart
 rvp_update_crontab
 
 rvp_start_player
-
