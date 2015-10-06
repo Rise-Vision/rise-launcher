@@ -354,9 +354,9 @@ Section -Main SEC0000
     Pop $R0
     StrCmp $R0 "OK" SetVariables
 
-    ${DetailPrint} "Unable to retrieve update at this time."
-    StrCpy $Errors "$Errors$\n$\tUnable to retrieve update at this time."
-    Goto DeleteConfig
+    ${DetailPrint} "Unable to retrieve information about components."
+    StrCpy $Errors "$Errors$\n$\tUnable to retrieve information about components."
+    ${MyAbort} "Installation has failed."
     
     SetVariables:
     ClearErrors
@@ -457,7 +457,6 @@ Section -Main SEC0000
     ;${ListPrint} "JavaVersion" $JavaVersion
     ;${ListPrint} "JavaURL" $JavaURL
         
-    DeleteConfig:
     Delete "$PLUGINSDIR\${BaseName}.config"
            
     ;-------------------
@@ -626,7 +625,6 @@ Section -Main SEC0000
     ;CreateShortcut "$SMSTARTUP\Start Rise Vision Player.lnk" "$INSTDIR\$InstallerExeName" "/S"
     
     UpdateCompleted:
-    UpdateFailed:       
     
     ; resetting Chrome preferences to prevent "restore prev session" message from appearing after crash/shutdown and enabling geolocation
     ${DetailPrint} "Resetting to default configuration."

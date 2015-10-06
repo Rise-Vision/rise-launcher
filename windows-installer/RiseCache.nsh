@@ -1,12 +1,12 @@
 !macro __RiseCacheUpdate
 
-    StrCmp $RiseCacheVersion "" SkipRiseCacheUpdate
+    StrCmp $RiseCacheVersion "" FailedRiseCacheUpdate
     StrCmp $CurrentRiseCacheVersion "" BeginRiseCacheUpdate
     StrCmp $RiseCacheVersion $CurrentRiseCacheVersion 0 BeginRiseCacheUpdate
 
     ${DetailPrint} "The installed RiseCache version is still up-to-date."
     ${DetailPrint} "RiseCache update was skipped."
-    Goto SkipRiseCacheUpdate
+    Goto ExitRiseCacheUpdate
   
     ;-------------------
   
@@ -20,8 +20,8 @@
     
     Pop $R0
     StrCmp $R0 "OK" ExtractRiseCache
-    ${DetailPrint} "Unable to download RiseCache at this time, will retry later."
-    Goto SkipRiseCacheUpdate
+    StrCpy $Errors "$Errors$\n$\tRise Cache update Error: $R0 Please check your internet connection and try again!"
+    Goto FailedRiseCacheUpdate
     
     ShowRiseCacheProgress:
     
@@ -32,11 +32,13 @@
     StrCmp $R0 "Cancelled" CancelledRiseCacheDownload
     
     MessageBox MB_RETRYCANCEL|MB_ICONSTOP|MB_TOPMOST "Download failed: $R0$\nPlease check your internet connection and try again!" IDRETRY ShowRiseCacheProgress
-    Goto SkipRiseCacheUpdate
+    StrCpy $Errors "$Errors$\n$\tRise Cache update Error: $R0 Please check your internet connection and try again!"
+    Goto FailedRiseCacheUpdate
   
     CancelledRiseCacheDownload:
     MessageBox MB_OK|MB_ICONEXCLAMATION|MB_TOPMOST "Download was aborted by user!"
-    Goto SkipRiseCacheUpdate
+    StrCpy $Errors "$Errors$\n$\tRise Cache Update Error: Download was aborted by user!"
+    Goto FailedRiseCacheUpdate
     
     ExtractRiseCache:
     
@@ -49,12 +51,14 @@
     
     StrCmp $0 "success" SuccessfullyExtractedRiseCache 0
     ${DetailPrint} "An error has occured while extracting the files ($0)"
+    StrCpy $Errors "$Errors$\n$\tRise Cache Update Error: An error has occured while extracting the files ($0)"
     RMDir /r "$PLUGINSDIR\RiseCache" 
     
-    StrCmp $Hidden "1" SkipRiseCacheUpdate
+    StrCmp $Hidden "1" FailedRiseCacheUpdate
     
     MessageBox MB_RETRYCANCEL|MB_ICONSTOP|MB_TOPMOST "Extraction failed: $0$\nPlease check your user permissions and try again." IDRETRY ExtractRiseCache
-    Goto SkipRiseCacheUpdate
+    StrCpy $Errors "$Errors$\n$\tRise Cache Update Error: $0$\nPlease check your user permissions and try again."
+    Goto FailedRiseCacheUpdate
   
     SuccessfullyExtractedRiseCache:
     Delete "$PLUGINSDIR\${RiseCacheZIP}"
@@ -66,9 +70,10 @@
   
     MissingRiseCacheFile:
     ${DetailPrint} "Error: At least one required file is missing in the update!"
+    StrCpy $Errors "$Errors$\n$\tRise Cache Update Error: At least one required file is missing in the update!"
     RMDir /r "$PLUGINSDIR\RiseCache"
     
-    Goto SkipRiseCacheUpdate
+    Goto FailedRiseCacheUpdate
   
     AllRiseCacheFilesThere: 
     
@@ -76,8 +81,17 @@
     
     ;StrCpy $FlashVersion $Revision
     
-    SkipRiseCacheUpdate:
-    
+    Goto ExitRiseCacheUpdate
+
+    FailedRiseCacheUpdate:
+    IfFileExists "$INSTDIR\RiseCache\RiseCache.jar" ExitRiseCacheUpdate
+    ${MyAbort} "Installation has failed."
+    return
+
+    ExitRiseCacheUpdate:
+    ClearErrors
+    StrCpy $Errors ""
+
 !macroend
 
 !macro __RiseCacheInstall

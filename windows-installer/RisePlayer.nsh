@@ -1,12 +1,12 @@
 !macro __RisePlayerUpdate
 
-    StrCmp $RisePlayerVersion "" SkipRisePlayerUpdate
+    StrCmp $RisePlayerVersion "" FailedRisePlayerUpdate
     StrCmp $CurrentRisePlayerVersion "" BeginRisePlayerUpdate
     StrCmp $RisePlayerVersion $CurrentRisePlayerVersion 0 BeginRisePlayerUpdate
 
     ${DetailPrint} "The installed RisePlayer version is still up-to-date."
     ${DetailPrint} "RisePlayer update was skipped."
-    Goto SkipRisePlayerUpdate
+    Goto ExitRisePlayerUpdate
   
     ;-------------------
   
@@ -20,8 +20,8 @@
     
     Pop $R0
     StrCmp $R0 "OK" ExtractRisePlayer
-    ${DetailPrint} "Unable to download RisePlayer at this time, will retry later."
-    Goto SkipRisePlayerUpdate
+    StrCpy $Errors "$Errors$\n$\tRise Player Update Error: $R0 Please check your internet connection and try again!"
+    Goto FailedRisePlayerUpdate
     
     ShowRisePlayerProgress:
     
@@ -32,11 +32,13 @@
     StrCmp $R0 "Cancelled" CancelledRisePlayerDownload
     
     MessageBox MB_RETRYCANCEL|MB_ICONSTOP|MB_TOPMOST "Download failed: $R0$\nPlease check your internet connection and try again!" IDRETRY ShowRisePlayerProgress
-    Goto SkipRisePlayerUpdate
+    StrCpy $Errors "$Errors$\n$\tRise Player update Error: $R0 Please check your internet connection and try again!"
+    Goto FailedRisePlayerUpdate
   
     CancelledRisePlayerDownload:
     MessageBox MB_OK|MB_ICONEXCLAMATION|MB_TOPMOST "Download was aborted by user!"
-    Goto SkipRisePlayerUpdate
+    StrCpy $Errors "$Errors$\n$\tRise Player Update Error: Download was aborted by user!"
+    Goto FailedRisePlayerUpdate
     
     ExtractRisePlayer:
     
@@ -49,12 +51,14 @@
     
     StrCmp $0 "success" SuccessfullyExtractedRisePlayer 0
     ${DetailPrint} "An error has occured while extracting the files ($0)"
+    StrCpy $Errors "$Errors$\n$\tRise Player Update Error: An error has occured while extracting the files ($0)"
     RMDir /r "$PLUGINSDIR\RisePlayer" 
     
-    StrCmp $Hidden "1" SkipRisePlayerUpdate
+    StrCmp $Hidden "1" FailedRisePlayerUpdate
     
     MessageBox MB_RETRYCANCEL|MB_ICONSTOP|MB_TOPMOST "Extraction failed: $0$\nPlease check your user permissions and try again." IDRETRY ExtractRisePlayer
-    Goto SkipRisePlayerUpdate
+    StrCpy $Errors "$Errors$\n$\tRise Player Update Error: $0$\nPlease check your user permissions and try again."
+    Goto FailedRisePlayerUpdate
   
     SuccessfullyExtractedRisePlayer:
     Delete "$PLUGINSDIR\${RisePlayerZIP}"
@@ -66,18 +70,28 @@
   
     MissingRisePlayerFile:
     ${DetailPrint} "Error: At least one required file is missing in the update!"
+    StrCpy $Errors "$Errors$\n$\tRise Player Update Error: At least one required file is missing in the update!"
     RMDir /r "$PLUGINSDIR\RisePlayer"
     
-    Goto SkipRisePlayerUpdate
+    Goto FailedRisePlayerUpdate
   
     AllRisePlayerFilesThere: 
     
     StrCpy $UpgradeNeeded "yes"
     
     ;StrCpy $FlashVersion $Revision
+
+    Goto ExitRisePlayerUpdate
     
-    SkipRisePlayerUpdate:
+    FailedRisePlayerUpdate:
+    IfFileExists "$INSTDIR\RisePlayer.jar" ExitRisePlayerUpdate
+    ${MyAbort} "Installation has failed."
+    return
     
+    ExitRisePlayerUpdate:
+    ClearErrors
+    StrCpy $Errors ""
+
 !macroend
 
 !macro __RisePlayerInstall

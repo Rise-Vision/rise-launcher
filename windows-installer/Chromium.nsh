@@ -8,13 +8,13 @@
     
     CheckChromiumVersions:
     
-    StrCmp $ChromiumVersion "" SkipChromiumUpdate
+    StrCmp $ChromiumVersion "" FailedChromiumUpdate
     StrCmp $CurrentChromiumVersion "" BeginChromiumUpdate
     StrCmp $ChromiumVersion $CurrentChromiumVersion 0 BeginChromiumUpdate
 
     ${DetailPrint} "The installed Chromium version is still up-to-date."
     ${DetailPrint} "Chromium update was skipped."
-    Goto SkipChromiumUpdate
+    Goto ExitChromiumUpdate
     
     ;-------------------
         
@@ -28,9 +28,8 @@
     
     Pop $R0
     StrCmp $R0 "OK" ExtractFiles
-    ${DetailPrint} "Unable to download Chromium at this time, will retry later."
-    StrCpy $Errors "$Errors$\n$\tCHROMIUM Update Error: Unable to download Chromium at this time, will retry later."
-    Goto SkipChromiumUpdate
+    StrCpy $Errors "$Errors$\n$\tCHROME Update Error: $R0 Please check your internet connection and try again!"
+    Goto FailedChromiumUpdate
     
     ShowProgress:
     
@@ -41,13 +40,13 @@
     StrCmp $R0 "Cancelled" CancelledDownload
     
     MessageBox MB_RETRYCANCEL|MB_ICONSTOP|MB_TOPMOST "Download failed: $R0$\nPlease check your internet connection and try again!" IDRETRY ShowProgress
-    StrCpy $Errors "$Errors$\n$\tCHROMIUM Update Error: $R0 Please check your internet connection and try again!"
-    ${MyAbort} "Installation has failed."
+    StrCpy $Errors "$Errors$\n$\tCHROME Update Error: $R0 Please check your internet connection and try again!"
+    Goto FailedChromiumUpdate
   
     CancelledDownload:
     MessageBox MB_OK|MB_ICONEXCLAMATION|MB_TOPMOST "Download was aborted by user!"
     StrCpy $Errors "$Errors$\n$\tCHROMIUM Update Error: Download was aborted by user!"
-    ${MyAbort} "Installation was aborted by user."
+    Goto FailedChromiumUpdate
     
     ExtractFiles:
     
@@ -63,12 +62,11 @@
     StrCpy $Errors "$Errors$\n$\tCHROMIUM Update Error: An error has occured while extracting the files ($0)"
     RMDir /r "$PLUGINSDIR\cache" 
     
-    StrCmp $Hidden "1" UpdateFailed
+    StrCmp $Hidden "1" FailedChromiumUpdate
     
     MessageBox MB_RETRYCANCEL|MB_ICONSTOP|MB_TOPMOST "Extraction failed: $0$\nPlease check your user permissions and try again." IDRETRY ExtractFiles
-    StrCpy $Errors "$Errors\n$\tExtraction failed: $0$\nPlease check your user permissions and try again."
     StrCpy $Errors "$Errors$\n$\tCHROMIUM Update Error: $0$\nPlease check your user permissions and try again."
-    ${MyAbort} "Installation has failed."
+    Goto FailedChromiumUpdate
   
     SuccessfullyExtracted:
     Delete "$PLUGINSDIR\${ChromiumZIP}"
@@ -83,9 +81,7 @@
     StrCpy $Errors "$Errors$\n$\tCHROMIUM Update Error: At least one required file is missing in the update!"
     RMDir /r "$PLUGINSDIR\cache"
     
-    StrCmp $Hidden "1" UpdateFailed
-    
-    ${MyAbort} "Installation has failed."
+    Goto FailedChromiumUpdate
   
     AllFilesThere:
     
@@ -93,7 +89,16 @@
     
     ;StrCpy $ChromiumVersion $Revision
     
-    SkipChromiumUpdate:
+    Goto ExitChromiumUpdate
+    
+    FailedChromiumUpdate:
+    IfFileExists "$INSTDIR\chromium\chrome.exe" ExitChromiumUpdate
+    ${MyAbort} "Installation has failed."
+    return
+    
+    ExitChromiumUpdate:
+    ClearErrors
+    StrCpy $Errors ""
     
 !macroend
 
