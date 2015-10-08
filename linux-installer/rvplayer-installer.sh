@@ -591,7 +591,7 @@ fi
 rvp_install_script
 
 # If running an old version of Ubuntu, do not upgrade components and try to run Player if it is installed
-if [ "$OSVER" = "12.04" ] || [ "$OSVER" = "12.10" ]
+if [[ "$OSVER" < "14.04" ]]
 then
   echo ""
   echo "*******************************************************************************************"
