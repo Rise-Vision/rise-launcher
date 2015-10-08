@@ -6,7 +6,7 @@ set -e
 DISPLAY_ID="" 
 CLAIM_ID="#CLAIM_ID#" 
 
-VERSION="2015.09.16.17.00"
+VERSION="2015.10.08.11.00"
 
 RVPLAYER="rvplayer"
 CHROMIUM="chrome"
