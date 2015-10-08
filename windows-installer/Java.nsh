@@ -1,12 +1,12 @@
 !macro __JavaUpdate
 
-    StrCmp $JavaVersion "" SkipJavaUpdate
+    StrCmp $JavaVersion "" FailedJavaUpdate
     StrCmp $CurrentJavaVersion "" BeginJavaUpdate
     StrCmp $JavaVersion $CurrentJavaVersion 0 BeginJavaUpdate
 
     ${DetailPrint} "The installed Java version is still up-to-date."
     ${DetailPrint} "Java update was skipped."
-    Goto SkipJavaUpdate
+    Goto ExitJavaUpdate
   
     ;-------------------
   
@@ -20,8 +20,8 @@
     
     Pop $R0
     StrCmp $R0 "OK" ExtractJava
-    ${DetailPrint} "Unable to download Java at this time, will retry later."
-    Goto SkipJavaUpdate
+    StrCpy $Errors "$Errors$\n$\tJAVA Update Error: $R0 Please check your internet connection and try again!"
+    Goto FailedJavaUpdate
     
     ShowJavaProgress:
     
@@ -29,15 +29,16 @@
     
     Pop $R0
     StrCmp $R0 "OK" ExtractJava
-    StrCmp $R0 "Cancelled" CancelledJavaDownload    
+    StrCmp $R0 "Cancelled" CancelledJavaDownload
     
     MessageBox MB_RETRYCANCEL|MB_ICONSTOP|MB_TOPMOST "Download failed: $R0$\nPlease check your internet connection and try again!" IDRETRY ShowJavaProgress
     StrCpy $Errors "$Errors$\n$\tJAVA Update Error: $R0 Please check your internet connection and try again!"
-    Goto SkipJavaUpdate
+    Goto FailedJavaUpdate
   
     CancelledJavaDownload:
     MessageBox MB_OK|MB_ICONEXCLAMATION|MB_TOPMOST "Download was aborted by user!"
-    Goto SkipJavaUpdate
+    StrCpy $Errors "$Errors$\n$\tJAVA Update Error: Download was aborted by user!"
+    Goto FailedJavaUpdate
     
     ExtractJava:
     
@@ -53,10 +54,11 @@
     StrCpy $Errors "$Errors$\n$\tJAVA Update Error: An error has occured while extracting the files ($0)"
     RMDir /r "$PLUGINSDIR\JRE" 
     
-    StrCmp $Hidden "1" SkipJavaUpdate
+    StrCmp $Hidden "1" FailedJavaUpdate
     
     MessageBox MB_RETRYCANCEL|MB_ICONSTOP|MB_TOPMOST "Extraction failed: $0$\nPlease check your user permissions and try again." IDRETRY ExtractJava
-    Goto SkipJavaUpdate
+    StrCpy $Errors "$Errors$\n$\tJAVA Update Error: $0$\nPlease check your user permissions and try again."
+    Goto FailedJavaUpdate
   
     SuccessfullyExtractedJava:
     Delete "$PLUGINSDIR\${JavaZIP}"
@@ -71,15 +73,24 @@
     StrCpy $Errors "$Errors$\n$\tJAVA Update Error: At least one required file is missing in the update!"
     RMDir /r "$PLUGINSDIR\JRE"
     
-    Goto SkipJavaUpdate
+    Goto FailedJavaUpdate
   
     AllJavaFilesThere: 
     
     StrCpy $UpgradeNeeded "yes"
     
     ;StrCpy $FlashVersion $Revision
+
+    Goto ExitJavaUpdate
     
-    SkipJavaUpdate:
+    FailedJavaUpdate:
+    IfFileExists "$INSTDIR\JRE\bin\javaw.exe" ExitJavaUpdate
+    ${MyAbort} "Installation has failed."
+    return
+
+    ExitJavaUpdate:
+    ClearErrors
+    StrCpy $Errors ""
     
 !macroend
 
@@ -96,7 +107,7 @@
     ${DetailPrint} "Failed to copy Java files to the install folder!" 
     RMDir /r "$PLUGINSDIR\JRE"
         
-    StrCmp $Hidden "1" SkipJavaInstall   
+    StrCmp $Hidden "1" SkipJavaInstall
     
     JavaCopySuccessful:
     
