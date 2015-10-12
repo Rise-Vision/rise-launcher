@@ -356,7 +356,7 @@ Section -Main SEC0000
 
     ${DetailPrint} "Unable to retrieve information about components."
     StrCpy $Errors "$Errors$\n$\tUnable to retrieve information about components."
-    ${MyAbort} "Installation has failed."
+    Goto DeleteConfig
     
     SetVariables:
     ClearErrors
@@ -456,9 +456,10 @@ Section -Main SEC0000
     ;${ListPrint} "ChromiumURL" $ChromiumURL
     ;${ListPrint} "JavaVersion" $JavaVersion
     ;${ListPrint} "JavaURL" $JavaURL
-        
+
+    DeleteConfig:
     Delete "$PLUGINSDIR\${BaseName}.config"
-           
+    
     ;-------------------
     ; Installer upgrade
     
