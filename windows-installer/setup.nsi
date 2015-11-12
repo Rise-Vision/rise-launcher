@@ -29,7 +29,7 @@
 
 	!echo "Building production version"
 	
-	!define CurrentInstallerVersion "2015.10.12.12.27"
+	!define CurrentInstallerVersion "2015.11.11.21.30"
 	!define CoreURL "https://rvaserver2.appspot.com"
 	!define ViewerURL "http://rvashow.appspot.com/Viewer.html"
 
@@ -37,7 +37,7 @@
 
 	!echo "Building test version"
 	
-	!define CurrentInstallerVersion "2015.10.12.12.27"
+	!define CurrentInstallerVersion "2015.11.11.21.30"
 	!define CoreURL "https://rvacore-test.appspot.com"
 	!define ViewerURL "http://viewer-test.appspot.com/Viewer.html"
 
@@ -345,8 +345,19 @@ Section -Main SEC0000
 
     ;--------------    
     
-    ;StrCpy $TempURL "${CoreURL}${PlayerUpdatePath}&id=$DisplayId"
+
+    System::Call "kernel32::GetCurrentProcess() i .s"
+    System::Call "kernel32::IsWow64Process(i s, *i .r0)"
+    IntCmp $0 0 Use32Bit
+
+    StrCpy $TempURL "http://install-versions.risevision.com/remote-components-win-64.cfg"
+    Goto DownloadComponentsList
+
+    Use32Bit:
     StrCpy $TempURL "http://install-versions.risevision.com/remote-components-win.cfg"
+
+    DownloadComponentsList:
+
     ${DetailPrint} "Retrieving update from $TempURL, please wait..."
 
     ${Download} "silent" "Downloading update..." "$TempURL" "$PLUGINSDIR\${BaseName}.config" "true"
@@ -435,27 +446,6 @@ Section -Main SEC0000
     ;--- end code code to support rollback to Player 1
     
     InstallerUpgradeIsNotRequired:
-
-    ;------------------
-    ; patch for Core API not supporting Java, RiseCache, and RisePlayer products.
-;    StrCmp $JavaVersion "" 0 +3
-;    StrCpy $JavaVersion "7.9"
-;    StrCpy $JavaURL "http://ef9507f9e45b5c673653-87f4c042133f43dfb869f7803a2c4f88.r20.cf2.rackcdn.com/jre-7.9-32bit.zip"
-; 
-;    StrCmp $RisePlayerVersion "" 0 +3
-;    StrCpy $RisePlayerVersion "2.0.004"
-;    StrCpy $RisePlayerURL "http://3a5d4246319acd95b71f-b1cb9f3373536e241d61b8ebb26f3e79.r61.cf2.rackcdn.com/RisePlayer-2.0.004.zip"
-;
-;    StrCmp $RiseCacheVersion "" 0 +3
-;    StrCpy $RiseCacheVersion "1.0.004"
-;    StrCpy $RiseCacheURL "http://81171fc5f892715ca8fe-f4a92021f5079607bd5dfda6d63b7185.r17.cf2.rackcdn.com/RiseCache-1.0.004.zip"
-        
-    ;${ListPrint} "Restart" $RestartRequired
-    ;${ListPrint} "InstallerUpgrade" $InstallerUpgradeRequired
-    ;${ListPrint} "ChromiumVersion" $ChromiumVersion
-    ;${ListPrint} "ChromiumURL" $ChromiumURL
-    ;${ListPrint} "JavaVersion" $JavaVersion
-    ;${ListPrint} "JavaURL" $JavaURL
 
     DeleteConfig:
     Delete "$PLUGINSDIR\${BaseName}.config"
