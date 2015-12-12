@@ -577,26 +577,13 @@ fi
 
 if ! $SILENT; then rvp_accept_terms; fi
 
-rvp_get_update
-
-# check for installer upgrade
-
-if [ -n "$VALUE_INSTALLER_VERSION" ] && [ -n "$VALUE_INSTALLER_URL" ] && [ "$VALUE_INSTALLER_VERSION" != "$VERSION" ]
-then 
-	rvp_download_and_run_installer
-else
-	echo "Installer is up to date."
-fi
-
-rvp_install_script
-
 # If running an old version of Ubuntu, do not upgrade components and try to run Player if it is installed
-if [[ "$OSVER" < "14.04" ]]
+if [[ "$OSVER" != "14.04" ]]
 then
   echo ""
   echo "*******************************************************************************************"
   echo ""
-  echo "Latest Rise Player requires Ubuntu 14.04 to run. Attempting to use previous installation..."
+  echo "Latest Rise Player requires Ubuntu 14.04 to run. Attempting to use existing installation..."
   echo ""
   echo "*******************************************************************************************"
   echo ""
@@ -609,6 +596,19 @@ then
 	rvp_start_player
 	exit 0
 fi
+
+rvp_get_update
+
+# check for installer upgrade
+
+if [ -n "$VALUE_INSTALLER_VERSION" ] && [ -n "$VALUE_INSTALLER_URL" ] && [ "$VALUE_INSTALLER_VERSION" != "$VERSION" ]
+then 
+	rvp_download_and_run_installer
+else
+	echo "Installer is up to date."
+fi
+
+rvp_install_script
 
 rm -rf $TEMP_PATH/$CHROME_LINUX
 
