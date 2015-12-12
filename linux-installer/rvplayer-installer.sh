@@ -378,7 +378,7 @@ rvp_download_and_run_installer() {
 	echo "Download complete."
 	
 	chmod 755 $abspath
-	$abspath
+	$abspath /S
 
 	# exit this version and let new version take over
 	exit 0
