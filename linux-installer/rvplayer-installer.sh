@@ -303,7 +303,7 @@ rvp_kill_rise_player() {
 
 	set +e
 
-	wget --spider --tries=1 $RISE_PLAYER_SHUTDOWN_URL >/dev/null 2>&1
+	wget --timeout=10  --spider --tries=1 $RISE_PLAYER_SHUTDOWN_URL >/dev/null 2>&1
 
 	set -e
 
@@ -315,7 +315,7 @@ rvp_kill_rise_cache() {
 
 	set +e
 
-	wget --spider --tries=1 $RISE_CACHE_SHUTDOWN_URL >/dev/null 2>&1
+	wget --timeout=10 --spider --tries=1 $RISE_CACHE_SHUTDOWN_URL >/dev/null 2>&1
 
 	set -e
 	
