@@ -205,20 +205,20 @@ rvp_get_update() {
 	CURRENT_RISE_PLAYER_VERSION=`cat $INSTALL_PATH/$TYPE_RISE_PLAYER".ver" 2>&1` || CURRENT_RISE_PLAYER_VERSION=""
 	CURRENT_RISE_CACHE_VERSION=`cat $INSTALL_PATH/$TYPE_RISE_CACHE".ver" 2>&1` || CURRENT_RISE_CACHE_VERSION=""
 
-        if [ $OSVER >= "14.04" ]
+        if [[ $OSVER < "14.04" ]]
         then
-          if [ "$ARCH" = "64" ]
-          then
-            update_url="http://install-versions.risevision.com/electron-remote-components-lnx-64.cfg"
-          else
-            update_url="http://install-versions.risevision.com/electron-remote-components-lnx-32.cfg"
-          fi
-        else
           if [ "$ARCH" = "64" ]
           then
             update_url="http://install-versions.risevision.com/remote-components-lnx-64.cfg"
           else
             update_url="http://install-versions.risevision.com/remote-components-lnx-32.cfg"
+          fi
+        else
+          if [ "$ARCH" = "64" ]
+          then
+            update_url="http://install-versions.risevision.com/electron-remote-components-lnx-64.cfg"
+          else
+            update_url="http://install-versions.risevision.com/electron-remote-components-lnx-32.cfg"
           fi
         fi
 
