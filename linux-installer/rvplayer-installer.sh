@@ -205,12 +205,22 @@ rvp_get_update() {
 	CURRENT_RISE_PLAYER_VERSION=`cat $INSTALL_PATH/$TYPE_RISE_PLAYER".ver" 2>&1` || CURRENT_RISE_PLAYER_VERSION=""
 	CURRENT_RISE_CACHE_VERSION=`cat $INSTALL_PATH/$TYPE_RISE_CACHE".ver" 2>&1` || CURRENT_RISE_CACHE_VERSION=""
 
-	if [ "$ARCH" = "64" ]
-	then
-		update_url="http://install-versions.risevision.com/remote-components-lnx-64.cfg"
-	else
-		update_url="http://install-versions.risevision.com/remote-components-lnx-32.cfg"
-	fi
+        if [ $OSVER >= "14.04" ]
+        then
+          if [ "$ARCH" = "64" ]
+          then
+            update_url="http://install-versions.risevision.com/electron-remote-components-lnx-64.cfg"
+          else
+            update_url="http://install-versions.risevision.com/electron-remote-components-lnx-32.cfg"
+          fi
+        else
+          if [ "$ARCH" = "64" ]
+          then
+            update_url="http://install-versions.risevision.com/remote-components-lnx-64.cfg"
+          else
+            update_url="http://install-versions.risevision.com/remote-components-lnx-32.cfg"
+          fi
+        fi
 
 	echo "Checking for updates..."
 	echo $update_url
@@ -576,26 +586,6 @@ then
 fi
 
 if ! $SILENT; then rvp_accept_terms; fi
-
-# If running an old version of Ubuntu, do not upgrade components and try to run Player if it is installed
-if [[ "$OSVER" != "14.04" ]]
-then
-  echo ""
-  echo "*******************************************************************************************"
-  echo ""
-  echo "Latest Rise Player requires Ubuntu 14.04 to run. Attempting to use existing installation..."
-  echo ""
-  echo "*******************************************************************************************"
-  echo ""
-
-  echo "2.2.0029" > $INSTALL_PATH/$TYPE_INSTALLER".ver"
-	rvp_kill_rise_player
-	rvp_kill_chromium
-	rvp_kill_rise_cache
-	sleep 3
-	rvp_start_player
-	exit 0
-fi
 
 rvp_get_update
 
