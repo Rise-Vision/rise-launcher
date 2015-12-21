@@ -385,12 +385,16 @@ Section -Main SEC0000
 
     ; ForceStable takes precedence over everything else
     StrCmp $ForceStable "true" UseStableChannel
+    ; Check needed for situations when stable and latest match, otherwise the next check always picks latest
+    StrCmp $CurrentRisePlayerVersion $PlayerVersionStable UseRandomForStableLatestCheck
     ; If already on latest, stay on latest
     StrCmp $CurrentRisePlayerVersion $PlayerVersionLatest UseUnstableChannel
+
+    UseRandomForStableLatestCheck:
     ; Random number to check if installer should use stable or unstable channel
     ${Rnd} $0 0 99
     ; IntComp value1 value2 do_if_equal do_if_value1_lt_value2 do_if_value1_gt_value2
-    IntCmp $0 $LatestRolloutPercent 0 UseUnstableChannel UseStableChannel
+    IntCmp $0 $LatestRolloutPercent UseStableChannel UseUnstableChannel UseStableChannel
 
     UseUnstableChannel:
     StrCpy $ChromiumVersion $BrowserVersionLatest
