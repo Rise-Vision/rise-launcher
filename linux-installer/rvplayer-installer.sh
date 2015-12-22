@@ -80,6 +80,7 @@ PARAM_RISE_CACHE_URL_LATEST="CacheURLLatest"
 
 SILENT=false
 CLEAR_CACHE=false
+ROLLOUT_INSTALLER=false
 
 VALUE_NO="0"
 VALUE_YES="1"
@@ -299,6 +300,7 @@ rvp_use_stable_versions() {
 }
 
 rvp_use_latest_versions() {
+        ROLLOUT_INSTALLER=true
         VALUE_CHROMIUM_VERSION=$VALUE_CHROMIUM_VERSION_LATEST
         VALUE_CHROMIUM_URL=$VALUE_CHROMIUM_URL_LATEST
         VALUE_JAVA_VERSION=$VALUE_JAVA_VERSION_LATEST
@@ -592,8 +594,13 @@ rvp_get_update
 # check for installer upgrade
 
 if [ -n "$VALUE_INSTALLER_VERSION" ] && [ -n "$VALUE_INSTALLER_URL" ] && [ "$VALUE_INSTALLER_VERSION" != "$VERSION" ]
-then 
-	rvp_download_and_run_installer
+then
+  if [ $ROLLOUT_INSTALLER ] then
+  	rvp_download_and_run_installer;
+  else
+  	echo "Staying on current version of the installer"
+  fi
+	
 else
 	echo "Installer is up to date."
 fi
