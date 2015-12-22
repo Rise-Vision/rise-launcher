@@ -165,6 +165,8 @@ Var ClaimId
 Var Hidden
 Var MutexHandle
 
+Var RolloutRandomValue
+
 Var InstallerVersion
 Var InstallerURL
 Var InstallerUpgradeRequired
@@ -392,9 +394,9 @@ Section -Main SEC0000
 
     UseRandomForStableLatestCheck:
     ; Random number to check if installer should use stable or unstable channel
-    ${Rnd} $0 0 99
+    ${Rnd} $RolloutRandomValue 0 99
     ; IntComp value1 value2 do_if_equal do_if_value1_lt_value2 do_if_value1_gt_value2
-    IntCmp $0 $LatestRolloutPercent UseStableChannel UseUnstableChannel UseStableChannel
+    IntCmp $RolloutRandomValue $LatestRolloutPercent UseStableChannel UseUnstableChannel UseStableChannel
 
     UseUnstableChannel:
     StrCpy $ChromiumVersion $BrowserVersionLatest
@@ -422,6 +424,10 @@ Section -Main SEC0000
 
 	${DetailPrint} "PlayerURL= $RisePlayerURL"
 	${DetailPrint} "CacheURL= $RiseCacheURL"
+
+    ; Apply rollout validation for installer upgrade
+    IntCmp $RolloutRandomValue $LatestRolloutPercent InstallerUpgradeIsNotRequired 0 InstallerUpgradeIsNotRequired
+
     StrCmp ${CurrentInstallerVersion} $InstallerVersion InstallerUpgradeIsNotRequired
     StrCpy $InstallerUpgradeRequired "1"
     
