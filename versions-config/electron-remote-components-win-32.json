@@ -1,0 +1,22 @@
+{
+  "ForceStable": false,
+  "LatestRolloutPercent": 5,
+  "InstallerElectronVersion": "2016.1.21.0.50",
+  "InstallerElectronURL": "http://install-versions.risevision.com/rvplayer-installer-win-32.tar.gz",
+  "BrowserVersionStable": "47.0.2526.80",
+  "BrowserVersionLatest": "47.0.2526.80",
+  "BrowserURLStable": "http://install-versions.risevision.com/chrome-win32-47.0.2526.80.tar.gz",
+  "BrowserURLLatest": "http://install-versions.risevision.com/chrome-win32-47.0.2526.80.tar.gz",
+  "CacheVersionStable": "2015.08.26.12.00",
+  "CacheVersionLatest": "2016.01.27.12.09",
+  "CacheURLStable": "http://install-versions.risevision.com/RiseCache.tar.gz",
+  "CacheURLLatest": "http://install-versions.risevision.com/RiseCache-2016-01-27-12-09.tar.gz",
+  "JavaVersionStable": "7.80",
+  "JavaVersionLatest": "7.80",
+  "JavaURLStable": "http://install-versions.risevision.com/jre-7u80-win-32.tar.gz",
+  "JavaURLLatest": "http://install-versions.risevision.com/jre-7u80-win-32.tar.gz",
+  "PlayerVersionStable": "2015.12.17.16.00",
+  "PlayerVersionLatest": "2016.01.27.12.09",
+  "PlayerURLStable": "http://install-versions.risevision.com/RisePlayer-2015-12-17-16-00.tar.gz",
+  "PlayerURLLatest": "http://install-versions.risevision.com/RisePlayer-2016-01-27-12-09.tar.gz"
+}
