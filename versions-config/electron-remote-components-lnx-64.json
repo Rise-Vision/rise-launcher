@@ -1,6 +1,6 @@
 {
   "ForceStable": false,
-  "LatestRolloutPercent": 5,
+  "LatestRolloutPercent": 25,
   "InstallerElectronVersion": "2016.1.21.0.50",
   "InstallerElectronURL": "http://install-versions.risevision.com/rvplayer-installer-lnx-64.tar.gz",
   "BrowserVersionStable": "47.0.2526.80",
