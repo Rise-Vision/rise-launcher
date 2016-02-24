@@ -1,7 +1,7 @@
 {
   "ForceStable": false,
-  "LatestRolloutPercent": 20,
-  "InstallerElectronVersion": "2016.2.18.16.14",
+  "LatestRolloutPercent": 2,
+  "InstallerElectronVersion": "2016.2.24.17.21",
   "InstallerElectronURL": "http://install-versions.risevision.com/rvplayer-installer-lnx-32.tar.gz",
   "BrowserVersionStable": "47.0.2526.80",
   "BrowserVersionLatest": "47.0.2526.80",
@@ -16,7 +16,7 @@
   "JavaURLStable": "http://install-versions.risevision.com/jre-7u80-lnx-32.tar.gz",
   "JavaURLLatest": "http://install-versions.risevision.com/jre-7u80-lnx-32.tar.gz",
   "PlayerVersionStable": "2016.02.11.21.00",
-  "PlayerVersionLatest": "2016.02.11.21.00",
+  "PlayerVersionLatest": "2016.02.24.13.00",
   "PlayerURLStable": "http://install-versions.risevision.com/RisePlayer-2016-02-05-10-00.tar.gz",
-  "PlayerURLLatest": "http://install-versions.risevision.com/RisePlayer-2016-02-05-10-00.tar.gz"
+  "PlayerURLLatest": "http://install-versions.risevision.com/RisePlayer-2016-02-24-13-00.tar.gz"
 }
