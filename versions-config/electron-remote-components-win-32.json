@@ -1,7 +1,7 @@
 {
   "ForceStable": false,
-  "LatestRolloutPercent": 2,
-  "InstallerElectronVersion": "2016.3.9.14.37",
+  "LatestRolloutPercent": 100,
+  "InstallerElectronVersion": "2016.2.24.17.21",
   "InstallerElectronURL": "http://install-versions.risevision.com/rvplayer-installer-win-32.tar.gz",
   "BrowserVersionStable": "48.0.2564.116",
   "BrowserVersionLatest": "48.0.2564.116",
