@@ -1,9 +1,9 @@
 {
   "ForceStable": false,
-  "LatestRolloutPercent": 50,
-  "InstallerElectronVersion": "2016.3.15.15.34",
-  "InstallerElectronURL": "http://install-versions.risevision.com/rvplayer-installer-lnx-64.tar.gz",
-  "BundleURL": "http://install-versions.risevision.com/installer-lnx-64.sh",
+  "LatestRolloutPercent": 0,
+  "InstallerElectronVersion": "2016.03.22.02.99",
+  "InstallerElectronURL": "http://install-versions.risevision.com/first-bundle-upgrade-lnx-64.tar.gz",
+  "BundleURL": "http://install-versions.risevision.com/2016.03.22.02.01/installer-lnx-64.sh",
   "BrowserVersionStable": "48.0.2564.116",
   "BrowserVersionLatest": "48.0.2564.116",
   "BrowserURLStable": "http://install-versions.risevision.com/chrome-lnx64-48.0.2564.116.tar.gz",
