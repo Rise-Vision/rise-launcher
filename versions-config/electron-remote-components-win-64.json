@@ -1,6 +1,6 @@
 {
   "ForceStable": false,
-  "LatestRolloutPercent": 10,
+  "LatestRolloutPercent": 50,
   "InstallerElectronVersion": "2016.03.29.15.56",
   "InstallerElectronURL": "http://install-versions.risevision.com/first-bundle-upgrade-win-64.tar.gz",
   "BundleURL": "http://install-versions.risevision.com/installer-win-64.exe",
