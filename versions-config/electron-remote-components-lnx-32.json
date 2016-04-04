@@ -1,6 +1,6 @@
 {
   "ForceStable": false,
-  "LatestRolloutPercent": 50,
+  "LatestRolloutPercent": 100,
   "InstallerElectronVersion": "2016.03.29.15.56",
   "InstallerElectronURL": "http://install-versions.risevision.com/first-bundle-upgrade-lnx-32.tar.gz",
   "BundleURL": "http://install-versions.risevision.com/installer-lnx-32.sh",
