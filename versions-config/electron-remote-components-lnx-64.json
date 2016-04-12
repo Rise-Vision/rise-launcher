@@ -1,7 +1,7 @@
 {
   "ForceStable": false,
-  "LatestRolloutPercent": 100,
-  "InstallerElectronVersion": "2016.03.29.15.56",
+  "LatestRolloutPercent": 2,
+  "InstallerElectronVersion": "2016.04.12.17.49",
   "InstallerElectronURL": "http://install-versions.risevision.com/first-bundle-upgrade-lnx-64.tar.gz",
   "BundleURL": "http://install-versions.risevision.com/installer-lnx-64.sh",
   "BrowserVersionStable": "48.0.2564.116",
