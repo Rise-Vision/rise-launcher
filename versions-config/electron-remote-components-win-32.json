@@ -1,6 +1,6 @@
 {
   "ForceStable": false,
-  "LatestRolloutPercent": 35,
+  "LatestRolloutPercent": 100,
   "InstallerElectronVersion": "2016.04.12.17.49",
   "InstallerElectronURL": "http://install-versions.risevision.com/first-bundle-upgrade-win-32.tar.gz",
   "BundleURL": "http://install-versions.risevision.com/installer-win-32.exe",
