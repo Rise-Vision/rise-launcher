@@ -1,7 +1,7 @@
 {
   "ForceStable": false,
-  "LatestRolloutPercent": 100,
-  "InstallerElectronVersion": "2016.05.03.17.45",
+  "LatestRolloutPercent": 1,
+  "InstallerElectronVersion": "2016.05.18.15.23",
   "InstallerElectronURL": "http://install-versions.risevision.com/first-bundle-upgrade-win-64.tar.gz",
   "BundleURL": "http://install-versions.risevision.com/installer-win-64.exe",
   "BrowserVersionStable": "48.0.2564.116",
